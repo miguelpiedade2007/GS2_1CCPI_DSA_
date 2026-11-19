@@ -62,7 +62,7 @@ Cada serviço de saúde é modelado por meio de uma `struct` com `typedef`, cont
 | `requisitos` | `char[180]` | Até 179 caracteres | Documentos ou condições exigidas do cidadão |
 | `local` | `char[120]` | Até 119 caracteres | Unidade de saúde e endereço |
 | `horario` | `char[60]` | Até 59 caracteres | Dias e horários de funcionamento |
-| `prioridade` | `int` | $1$ a $5$ | Nível de criticidade ($1$ = Baixa até $5$ = Crítica/Emergência) |
+| `prioridade` | `int` | 1 a 5 | Nível de criticidade (1 = Baixa até 5 = Crítica/Emergência) |
 
 ### 3.2. Estrutura da Lista Encadeada (`No` e `ListaServicos`)
 
@@ -115,7 +115,7 @@ A opção `8` calcula dinamicamente os seguintes indicadores sobre os dados em m
 2. Quantidade e percentual de serviços com atendimento 24 horas;
 3. Média geral do nível de prioridade;
 4. Quantidade e participação percentual de serviços por categoria;
-5. Distribuição absoluta por nível de prioridade (de $5$ a $1$).
+5. Distribuição absoluta por nível de prioridade (de 5 a 1).
 
 ---
 
@@ -141,29 +141,29 @@ Considere $n$ o número de serviços cadastrados na lista encadeada, $m$ o compr
 
 ### 5.5. Ordenação — Merge Sort em Lista Encadeada (`ordenar_lista` / `merge_sort_nos`)
 * **Funcionamento:** Foi implementado o algoritmo **Merge Sort** operando diretamente sobre os ponteiros dos nós, sem uso de `qsort` e sem cópia dos registros:
-  1. **Divisão (`dividir_lista`):** emprega a técnica de dois ponteiros (*lento* avança 1 nó; *rápido* avança 2 nós) para localizar o ponto médio da lista em $O(n)$ e parti-la em duas sublistas independentes.
+  1. **Divisão (`dividir_lista`):** emprega a técnica de dois ponteiros (*lento* avança 1 nó; *rápido* avança 2 nós) para localizar o ponto médio da lista em O(n) e parti-la em duas sublistas independentes.
   2. **Conquista (`merge_sort_nos`):** ordena recursivamente a metade esquerda e a metade direita.
   3. **Intercalação (`intercalar_listas`):** utiliza um nó `sentinela` na pilha (*stack*) para combinar as duas sublistas ordenadas apenas redirecionando ponteiros `prox`, com base em um ponteiro de função `Comparador` (permitindo ordenar por ID, Título, Categoria ou Prioridade).
-  4. **Atualização de `fim`:** ao concluir a ordenação, percorre a lista uma única vez ($O(n)$) para reposicionar `lista->fim`.
-* **Justificativa da Escolha:** O Merge Sort é o algoritmo clássico mais adequado para listas encadeadas porque dispensa acesso aleatório, é **estável** (preserva a ordem relativa de elementos iguais) e mantém garantia assintótica de $O(n \log n)$ mesmo no pior caso (ao contrário do Quick Sort, que pode degradar para $O(n^2)$).
-* **Complexidade:** Tempo $O(n \log n)$ em melhor, médio e pior caso ($\log_2 n$ níveis de recursão com trabalho $O(n)$ por nível); espaço auxiliar $O(\log n)$ referente apenas à pilha de chamadas recursivas.
+  4. **Atualização de `fim`:** ao concluir a ordenação, percorre a lista uma única vez (O(n)) para reposicionar `lista->fim`.
+* **Justificativa da Escolha:** O Merge Sort é o algoritmo clássico mais adequado para listas encadeadas porque dispensa acesso aleatório, é **estável** (preserva a ordem relativa de elementos iguais) e mantém garantia assintótica de O(n log n) mesmo no pior caso (ao contrário do Quick Sort, que pode degradar para O(n^2).
+* **Complexidade:** Tempo O(n log n) em melhor, médio e pior caso (log_2 n níveis de recursão com trabalho O(n) por nível); espaço auxiliar O(log n) referente apenas à pilha de chamadas recursivas.
 
 ### 5.6. Análise e Indicadores (`acao_analise`)
-* **Funcionamento:** Percorre todos os $n$ nós acumulando contadores de prioridade e atendimento 24h em $O(1)$ por nó, e agrupa categorias em um vetor dinâmico de $k$ categorias distintas.
-* **Complexidade:** Tempo $O(n \cdot k)$ (no pior caso, quando todas as categorias são distintas, $k = n$, resultando em $O(n^2)$); espaço auxiliar $O(n)$ para o vetor temporário de contagem.
+* **Funcionamento:** Percorre todos os n nós acumulando contadores de prioridade e atendimento 24h em O(1) por nó, e agrupa categorias em um vetor dinâmico de $k$ categorias distintas.
+* **Complexidade:** Tempo O(n . k) (no pior caso, quando todas as categorias são distintas, $k = n$, resultando em O(n^2)); espaço auxiliar O(n) para o vetor temporário de contagem.
 
 ### 5.7. Tabela Resumo de Complexidade
 
 | Operação | Função | Melhor Caso | Pior Caso | Espaço Auxiliar |
 | :--- | :--- | :---: | :---: | :---: |
-| Inserção (com validação de ID) | `inserir_servico` | $O(1)$* | $O(n)$ | $O(1)$ |
-| Busca por ID | `buscar_por_id` | $O(1)$ | $O(n)$ | $O(1)$ |
-| Pesquisa por atributo textual | `acao_pesquisar` | $O(n)$ | $O(n \cdot L \cdot m)$ | $O(1)$ |
-| Remoção por ID | `remover_por_id` | $O(1)$ | $O(n)$ | $O(1)$ |
-| Ordenação (Merge Sort) | `ordenar_lista` | $O(n \log n)$ | $O(n \log n)$ | $O(\log n)$ |
-| Análise e indicadores | `acao_analise` | $O(n)$ | $O(n \cdot k)$ | $O(n)$ |
+| Inserção (com validação de ID) | `inserir_servico` | O(1)* | O(n) | O(1) |
+| Busca por ID | `buscar_por_id` | O(1) | O(n) | O(1) |
+| Pesquisa por atributo textual | `acao_pesquisar` | O(n) | O(n . L . m) | O(1) |
+| Remoção por ID | `remover_por_id` | O(1) | O(n) | O(1) |
+| Ordenação (Merge Sort) | `ordenar_lista` | O(n log n) | O(n log n) | O(log n) |
+| Análise e indicadores | `acao_analise` | O(n) | O(n . k) | O(n) |
 
-*\*Somente na inserção do primeiro elemento (lista vazia), quando a verificação de duplicidade não percorre nenhum nó. Com a lista já preenchida, cadastrar um ID novo exige percorrer os $n$ nós para confirmar que ele não existe, por isso o custo típico da inserção é $O(n)$.*
+*\*Somente na inserção do primeiro elemento (lista vazia), quando a verificação de duplicidade não percorre nenhum nó. Com a lista já preenchida, cadastrar um ID novo exige percorrer os $n$ nós para confirmar que ele não existe, por isso o custo típico da inserção é O(n).*
 
 ---
 
