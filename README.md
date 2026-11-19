@@ -215,4 +215,4 @@ Os prints abaixo registram os casos de validação e tratamento de erros (lista 
 
 **Link:** https://youtu.be/jScm0WXaoSg
 
-O vídeo demonstra o sistema em funcionamento, incluindo os casos normais de cadastro, consulta, pesquisa, atualização, exclusão, ordenação (Merge Sort) e análise.
+O vídeo demonstra o sistema em funcionamento, incluindo os casos normais de cadastro, consulta, pesquisa, atualização, e explicações sobre o projeto.
