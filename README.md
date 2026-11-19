@@ -1,16 +1,17 @@
-# Documentação Técnica — Citizen Assist AI (Serviços de Saúde)
+# Documentação Técnica — Citizen Assist AI: MedIndex (Serviços de Saúde)
 
-**Disciplina:** Data Structures and Algorithms (DSA) — Turma 1CCPI 
+**Disciplina:** Data Structures and Algorithms (DSA) — Turma 1CCPI  
 **Avaliação:** Global Solution 2026.2 — Citizen Tech  
 **Recorte Escolhido:** Serviços de Saúde Pública  
 **Linguagem de Implementação:** C  
 **Integrante:** Miguel Anção Rotílio Piedade — RM 572445  
+**Vídeo de demonstração:** https://youtu.be/jScm0WXaoSg  
 
 ---
 
 ## 1. Contextualização e Recorte Escolhido
 
-O **Citizen Assist AI** é um protótipo de sistema de linha de comando desenvolvido para organizar, consultar e gerenciar informações úteis ao cidadão. O recorte escolhido é o de **Serviços de Saúde**, abrangendo pontos de atendimento e programas públicos essenciais, tais como:
+O **MedIndex** é o protótipo do **Citizen Assist AI**, um sistema de linha de comando desenvolvido para organizar, consultar e gerenciar informações úteis ao cidadão. O recorte escolhido é o de **Serviços de Saúde**, abrangendo pontos de atendimento e programas públicos essenciais, tais como:
 
 * **Urgência e Emergência:** Unidades de Pronto Atendimento (UPAs 24h) e prontos-socorros.
 * **Vacinação:** Campanhas e aplicação de imunizantes em Unidades Básicas de Saúde (UBSs).
@@ -29,7 +30,7 @@ O código-fonte (`main.c`) segue rigorosamente o padrão **ISO C11**, sem depend
 ### Compilação (com flags estritas de verificação)
 
 ```bash
-gcc -std=c11 -Wall -Wextra main.c -o citizen_assist
+gcc -std=c11 -Wall -Wextra main.c -o main
 ```
 
 A compilação com essas flags não gera nenhum aviso (*warning*).
@@ -38,11 +39,11 @@ A compilação com essas flags não gera nenhum aviso (*warning*).
 
 * **Linux / macOS:**
   ```bash
-  ./citizen_assist
+  ./main
   ```
 * **Windows (CMD / PowerShell):**
   ```powershell
-  citizen_assist.exe
+  main.exe
   ```
 
 ---
@@ -178,7 +179,7 @@ Considere $n$ o número de serviços cadastrados na lista encadeada, $m$ o compr
 | **CT-03** | Cadastro normal | Opção `1` com ID `106`, Título `"Atendimento Odontologico"`, Categoria `"Odontologia"`, Prioridade `2` | Alocar nó dinamicamente e confirmar cadastro | Serviço cadastrado e exibido corretamente na listagem | Aprovado |
 | **CT-04** | Identificador duplicado | Opção `1` informando ID `106` (já existente) | Bloquear inserção e alertar sobre ID duplicado | Mensagem `"Erro: ja existe um servico cadastrado com o ID 106"` exibida | Aprovado |
 | **CT-05** | Consulta e pesquisa (com resultado) | Opção `9` (carregar exemplos); Opção `3` com ID `104`; Opção `4` por Título com `"vacin"` | Localizar serviço ID `104` e retornar registro contendo `"Vacinacao"` (case-insensitive) | Registros encontrados e exibidos com todos os campos | Aprovado |
-| **CT-06** | Registro inexistente | Opção `3` com ID `999`; Opção `4` por Categoria com `"inexistente"` | Informar que nenhum registro foi encontrado | Mensagens de ausência de resultado exibidas adequadamente | Aprovado |
+| **CT-06** | Registro inexistente | Opção `3` com ID `999`; Opção `4` por Local com o termo `"SUS"` | Informar que nenhum registro foi encontrado | Mensagens de ausência de resultado exibidas adequadamente | Aprovado |
 | **CT-07** | Atualização e exclusão | Opção `5` no ID `106` (manter título com ENTER, alterar prioridade para `4`); Opção `6` removendo ID `106` | Atualizar apenas o campo modificado; remover nó e manter lista íntegra | Campo atualizado, nó removido com `free` e listagem íntegra | Aprovado |
 | **CT-08** | Ordenação por Prioridade (Merge Sort) | Opção `9` (exemplos); Opção `7` com critério `4` | Nós reordenados da prioridade 5 para a 1; empates resolvidos pelo ID | Ordem obtida: 104 (5), 105 (4), 101 (3), 102 (3), 103 (2) | Aprovado |
 | **CT-09** | Ordenação por Título A–Z (Merge Sort) | Em seguida, Opção `7` com critério `2` | Nós reordenados em ordem alfabética do título, sem diferenciar maiúsculas/minúsculas | Ordem obtida: Acolhimento (105), Campanha (101), Coleta (103), Pronto-Socorro (104), Retirada (102) | Aprovado |
@@ -186,28 +187,32 @@ Considere $n$ o número de serviços cadastrados na lista encadeada, $m$ o compr
 
 ### 6.2. Registros Visuais (Prints do Terminal)
 
-> Inserção de prints
+Os prints abaixo registram os casos de validação e tratamento de erros (lista vazia, entrada inválida, ID duplicado e registros inexistentes). Os casos de funcionamento normal (CT-03, CT-05, CT-07, CT-08, CT-09 e CT-10) estão demonstrados no vídeo da seção 7.
 
-* **Figura 1 — CT-01 (Operações com lista vazia):**  
-  `[Print das opções 2 e 6 com as listas vazias]`
+* **Figura 1 — CT-01 (Operações com lista vazia):** opções `2` e `6` executadas logo ao iniciar o sistema.
 
-* **Figura 2 — CT-02 (Validação de entradas inválidas):**  
-  `[Print de entradas rejeitadas pelo menu tipo: "ABC" e "99"]`
+  ![CT-01 — Listar e excluir com a lista vazia](prints/ct01_lista_vazia.jpg)
 
-* **Figura 3 — CT-03 e CT-04 (Cadastro válido e bloqueio de ID duplicado):**  
-  `[Print de erro ao tentar repetir um ID]`
+* **Figura 2 — CT-02 (Validação de entradas inválidas):** entradas `abc` e `99` rejeitadas pelo menu, sem loop infinito.
 
-* **Figura 4 — CT-05 (Consulta por ID e pesquisa por substring):**  
-  `[Print de consulta ID 104 e pesquisa pelo termo "vacin"]`
+  ![CT-02 — Entradas inválidas no menu](prints/ct02_entrada_invalida.jpg)
 
-* **Figura 5 — CT-06 (Tratamento de registros inexistentes):**  
-  `[Print de consulta ID 999 e pesquisa pelo termo "inexistente"]`
+* **Figura 3 — CT-04 (Bloqueio de ID duplicado):** tentativa de cadastrar novamente o ID `106`.
 
-* **Figura 6 — CT-07 (Atualização parcial e exclusão preservando integridade):**  
-  `[Print de atualização e remoção do ID 106]`
+  ![CT-04 — Cadastro com ID duplicado](prints/ct04_id_duplicado.jpg)
 
-* **Figura 7 — CT-08 e CT-09 (Ordenação via Merge Sort — Prioridade e Título A–Z):**  
-  `[Inserir print: Resultado da Opção 7 exibindo a lista ordenada]`
+* **Figura 4 — CT-06 (Consulta por ID inexistente):** consulta do ID `999`.
 
-* **Figura 8 — CT-10 (Relatório de análise e indicadores de saúde):**  
-  `[Inserir print: Saída completa da Opção 8]`
+  ![CT-06 — Consulta por ID inexistente](prints/ct06_id_inexistente.jpg)
+
+* **Figura 5 — CT-06 (Pesquisa sem resultado):** pesquisa por Local com o termo `SUS`.
+
+  ![CT-06 — Pesquisa por local sem resultado](prints/ct06_pesquisa_sem_resultado.jpg)
+
+---
+
+## 7. Demonstração em Vídeo
+
+**Link:** https://youtu.be/jScm0WXaoSg
+
+O vídeo demonstra o sistema em funcionamento, incluindo os casos normais de cadastro, consulta, pesquisa, atualização, exclusão, ordenação (Merge Sort) e análise.

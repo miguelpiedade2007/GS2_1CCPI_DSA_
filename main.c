@@ -1,14 +1,14 @@
  /*
- * Citizen Assist AI - Prototipo em C (Recorte: Servicos de Saude)
+ * Citizen Assist AI - Prototipo em C / MedIndex (Recorte: Servicos de Saude)
  * Disciplina: Data Structures and Algorithms (DSA) - Global Solution 2026.2
  * Aluno: Miguel Anção Rotílio Piedade - RM 572445
  *
  * Compilacao:
- *   gcc -std=c11 -Wall -Wextra main.c -o citizen_assist
+ *   gcc -std=c11 -Wall -Wextra main.c -o main
  *
  * Execucao:
- *   ./citizen_assist    no Linux e macOS
- *   citizen_assist.exe  no Windows
+ *   ./main    no Linux e macOS
+ *   main.exe  no Windows
  */
 
 #include <ctype.h>
